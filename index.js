@@ -142,14 +142,45 @@ function draw() {
         console.log(params)
         var x = params.pointer.DOM.x;
         var y = params.pointer.DOM.y;
-        var tooltip = `<div id="tooltip" style="position: absolute;border: 1px solid rgb(255, 255, 255); color: black; font-size: 12px; font-family: verdana; padding: 5px; background-color: rgb(255, 255, 255); border-radius: 3px; box-shadow: rgba(128, 128, 128, 0.5) 3px 3px 10px; white-space: nowrap; left: ${x}px; top: ${y}px;"><b>Yuri Milner</b> <br><br>Country: No data<br>City: No data</div>`;
+
+        var tooltip = `<div  id="tooltip" style="position: absolute; left: ${x}px; top: ${y}px" class="col-md-2">
+        <ul class="list-group mb-3">
+            <li class="list-group-item d-flex justify-content-between lh-condensed">
+                <div>
+                    <h6 class="my-0">agoalofalife@gmail.com</h6>
+                    <small class="text-muted">Owner</small>
+                </div>
+            </li>
+            <li class="list-group-item d-flex justify-content-between lh-condensed">
+                <div>
+                    <h6 class="my-0"><a href="https://yandex.ru<">https://yandex.ru</a></h6>
+                    <small class="text-muted">Documentation</small>
+                </div>
+            </li>
+            <li class="list-group-item d-flex justify-content-between lh-condensed">
+                <div>
+                    <h6 class="my-0"><a href="https://yandex.ru<">https://yandex.ru</a></h6>
+                    <small class="text-muted">Git</small>
+                </div>
+            </li>
+            <li class="list-group-item d-flex justify-content-between bg-light">
+                <div class="text-success">
+                    <h6 class="my-0">Promo code</h6>
+                    <small>EXAMPLECODE</small>
+                </div>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+                <span>Total (USD)</span>
+            </li>
+        </ul>
+    </div>`;
         elemTooltip = $('body').append(tooltip);
 
         // params.event = "[original event]";
         // document.getElementById('eventSpan').innerHTML = '<h2>Click event:</h2>' + JSON.stringify(params, null, 4);
         // console.log('click event, getNodeAt returns: ' + this.getNodeAt(params.pointer.DOM));
     });
-    
+
     network.on('blurNode', function (params) {
         $('#tooltip').remove();
     })
