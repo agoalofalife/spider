@@ -1,0 +1,23 @@
+{
+  "nodes":[
+    {
+      "unique_name":"frontend",
+      "group":"service",
+      "weight":5,
+      "meta_info":{
+        "owner":"agoalofalife@gmail.com",
+        "documentation":{
+          "label":"Wiki",
+          "link":"https://yandex.ru"
+        },
+        "git":{
+          "label":"Github",
+          "link":"https://yandex.ru"
+        },
+        "technology":"PHP Framework Laravel",
+        "additionally":""
+      },
+      "dependences":["Admin", "Mysql"]
+    }
+  ]
+}

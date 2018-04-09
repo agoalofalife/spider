@@ -15,17 +15,19 @@ var LENGTH_MAIN = 350,
     BLACK = '#2B1B17';
 
 // Called when the Visualization API is loaded.
-function draw() {
+function draw(jsonData) {
     // Create a data table with nodes.
     nodes = [];
     // Create a data table with links.
     edges = [];
 
-    nodes.push({id: 1, title:'dc',label: 'Laravel', group: 'service',title:'sdc', value: 10});
+    nodes.push({id: 1, title:'dc',label: 'frontend', group: 'service', value: 8});
     nodes.push({id: 2, label: 'Mysql', group: 'database', value: 8});
-    // nodes.push({id: 3, label: '192.168.0.3', group: 'switch', value: 6});
+    nodes.push({id: 3, label: 'admin', group: 'service', value: 10});
 
     edges.push({from: 1, to: 2, length: 150, width: WIDTH_SCALE, label: 'http'});
+    edges.push({from: 2, to: 3, length: 150, width: WIDTH_SCALE, label: 'http'});
+    edges.push({from: 1, to: 3, length: 150, width: WIDTH_SCALE, label: 'http'});
 
     // edges.push({from: 1, to: 3, length: LENGTH_MAIN, width: WIDTH_SCALE * 4, label: '0.55 mbps'});
     // // group around 2
@@ -103,10 +105,6 @@ function draw() {
         // storage
         // database
         groups: {
-            // 'switch': {
-            //     shape: 'triangle',
-            //     color: '#FF9900' // orange
-            // },
             cron: {
                 shape: 'image',
                 image:'./images/cron.png'
@@ -139,7 +137,6 @@ function draw() {
     network = new vis.Network(document.getElementById('mynetwork'), data, options);
 
     network.on("hoverNode", function (params) {
-        console.log(params)
         var x = params.pointer.DOM.x;
         var y = params.pointer.DOM.y;
 
@@ -153,20 +150,20 @@ function draw() {
             </li>
             <li class="list-group-item d-flex justify-content-between lh-condensed">
                 <div>
-                    <h6 class="my-0"><a href="https://yandex.ru<">https://yandex.ru</a></h6>
+                    <h6 class="my-0"><a href="https://yandex.ru">Wiki</a></h6>
                     <small class="text-muted">Documentation</small>
                 </div>
             </li>
             <li class="list-group-item d-flex justify-content-between lh-condensed">
                 <div>
-                    <h6 class="my-0"><a href="https://yandex.ru<">https://yandex.ru</a></h6>
+                    <h6 class="my-0"><a href="https://yandex.ru">Github</a></h6>
                     <small class="text-muted">Git</small>
                 </div>
             </li>
             <li class="list-group-item d-flex justify-content-between bg-light">
                 <div class="text-success">
-                    <h6 class="my-0">Promo code</h6>
-                    <small>EXAMPLECODE</small>
+                    <h6 class="my-0">PHP Framework Laravel</h6>
+                    <small>Technology</small>
                 </div>
             </li>
             <li class="list-group-item d-flex justify-content-between">
@@ -187,6 +184,16 @@ function draw() {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    draw();
+    getData('manifest_client.json', draw);
 });
 
+function getData(dataUrl, cb) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', dataUrl, false);
+    xhr.send();
+    if (xhr.status !== 200) {
+        alert( xhr.status + ': ' + xhr.statusText ); // пример вывода: 404: Not Found
+    } else {
+        cb.call(this, JSON.parse(xhr.responseText));
+    }
+}
