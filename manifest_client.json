@@ -17,7 +17,35 @@
         "technology":"PHP Framework Laravel",
         "additionally":""
       },
-      "dependences":["Admin", "Mysql"]
+      "dependences":[
+        {
+          "unique_name":"Admin",
+          "connection_type":"http"
+        },
+        {
+          "unique_name":"Mysql",
+          "connection_type":"http"
+        }
+      ]
+    },
+    {
+      "unique_name":"Mysql",
+      "group":"database",
+      "weight":5,
+      "meta_info":{
+        "owner":"agoalofalife@gmail.com",
+        "documentation":{
+          "label":"Wiki",
+          "link":"https://mysql.ru"
+        },
+        "git":{
+          "label":"Github",
+          "link":"https://yandex.ru"
+        },
+        "technology":"Mysql",
+        "additionally":""
+      },
+      "dependences":[]
     }
   ]
 }

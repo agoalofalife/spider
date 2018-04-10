@@ -3,31 +3,23 @@ var edges = null;
 var network = null;
 var elemTooltip = null;
 
-var LENGTH_MAIN = 350,
-    LENGTH_SERVER = 150,
-    LENGTH_SUB = 50,
+var
     WIDTH_SCALE = 2,
-    GREEN = 'green',
-    RED = '#C5000B',
-    ORANGE = 'orange',
-    //GRAY = '#666666',
-    GRAY = 'gray',
-    BLACK = '#2B1B17';
+    GRAY = 'gray';
 
-// Called when the Visualization API is loaded.
 function draw(jsonData) {
-    // Create a data table with nodes.
     nodes = [];
-    // Create a data table with links.
     edges = [];
 
-    nodes.push({id: 1, title:'dc',label: 'frontend', group: 'service', value: 8});
-    nodes.push({id: 2, label: 'Mysql', group: 'database', value: 8});
-    nodes.push({id: 3, label: 'admin', group: 'service', value: 10});
+    jsonData.nodes.forEach(function (node) {
+        nodes.push({id: node.unique_name, label: node.unique_name, group: node.group, value: 5});
+    });
 
-    edges.push({from: 1, to: 2, length: 150, width: WIDTH_SCALE, label: 'http'});
-    edges.push({from: 2, to: 3, length: 150, width: WIDTH_SCALE, label: 'http'});
-    edges.push({from: 1, to: 3, length: 150, width: WIDTH_SCALE, label: 'http'});
+    jsonData.nodes.forEach(function (node) {
+        node.dependences.forEach(function (nodeDepend) {
+            edges.push({from: node.unique_name, to: nodeDepend.unique_name, length: 150, width: WIDTH_SCALE, label: nodeDepend.connection_type});
+        });
+    });
 
     // edges.push({from: 1, to: 3, length: LENGTH_MAIN, width: WIDTH_SCALE * 4, label: '0.55 mbps'});
     // // group around 2
@@ -72,17 +64,12 @@ function draw(jsonData) {
     var step = 70;
 
     nodes.push({id: 1000, x: x, y: y, label: 'Process', group: 'process', value: 1, fixed: true, physics:false});
-    // nodes.push({id: 1001, x: x, y: y + step, label: 'Switch', group: 'switch', value: 1, fixed: true,  physics:false});
     nodes.push({id: 1001, x: x, y: y + step, label: 'Services', group: 'service', value: 1, fixed: true,  physics:false});
     nodes.push({id: 1002, x: x, y: y + 2 * step, label: 'Cron', group: 'cron', value: 1, fixed: true,  physics:false});
     nodes.push({id: 1003, x: x, y: y + 3 * step, label: 'Manual process', group: 'manprocess', value: 1, fixed: true,  physics:false});
     nodes.push({id: 1004, x: x, y: y + 4 * step, label: '3rd party service', group: 'third_party_service', value: 1, fixed: true, physics:false});
     nodes.push({id: 1005, x: x, y: y + 5 * step, label: 'Database', group: 'database', value: 1, fixed: true, physics:false});
 
-    var data = {
-        nodes: nodes,
-        edges: edges
-    };
     var options = {
         interaction: {
             hover:true
@@ -101,14 +88,10 @@ function draw(jsonData) {
             barnesHut:{gravitationalConstant:-30000},
             stabilization: {iterations:2500}
         },
-        // 3rd party service icon
-        // storage
-        // database
         groups: {
             cron: {
                 shape: 'image',
                 image:'./images/cron.png'
-                // color: "#2B7CE9" // blue
             },
             manprocess: {
                 shape: 'image',
@@ -117,12 +100,10 @@ function draw(jsonData) {
             service: {
                 shape: 'image',
                 image:'./images/service.png'
-                // color: "#C5000B" // red
             },
             process: {
                 shape: 'image',
                 image:'./images/process.png'
-                // color: "#109618" // green
             },
             third_party_service:{
                 shape: 'image',
@@ -134,7 +115,10 @@ function draw(jsonData) {
             }
         }
     };
-    network = new vis.Network(document.getElementById('mynetwork'), data, options);
+    network = new vis.Network(document.getElementById('mynetwork'), {
+        nodes: nodes,
+        edges: edges
+    }, options);
 
     network.on("hoverNode", function (params) {
         var x = params.pointer.DOM.x;
@@ -166,16 +150,12 @@ function draw(jsonData) {
                     <small>Technology</small>
                 </div>
             </li>
-            <li class="list-group-item d-flex justify-content-between">
-                <span>Total (USD)</span>
-            </li>
+            <!--<li class="list-group-item d-flex justify-content-between">-->
+                <!--<span>Total (USD)</span>-->
+            <!--</li>-->
         </ul>
     </div>`;
         elemTooltip = $('body').append(tooltip);
-
-        // params.event = "[original event]";
-        // document.getElementById('eventSpan').innerHTML = '<h2>Click event:</h2>' + JSON.stringify(params, null, 4);
-        // console.log('click event, getNodeAt returns: ' + this.getNodeAt(params.pointer.DOM));
     });
 
     network.on('blurNode', function (params) {
