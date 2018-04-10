@@ -124,38 +124,17 @@ function draw(jsonData) {
         var x = params.pointer.DOM.x;
         var y = params.pointer.DOM.y;
 
-        var tooltip = `<div  id="tooltip" style="position: absolute; left: ${x}px; top: ${y}px" class="col-md-2">
-        <ul class="list-group mb-3">
-            <li class="list-group-item d-flex justify-content-between lh-condensed">
-                <div>
-                    <h6 class="my-0">agoalofalife@gmail.com</h6>
-                    <small class="text-muted">Owner</small>
-                </div>
-            </li>
-            <li class="list-group-item d-flex justify-content-between lh-condensed">
-                <div>
-                    <h6 class="my-0"><a href="https://yandex.ru">Wiki</a></h6>
-                    <small class="text-muted">Documentation</small>
-                </div>
-            </li>
-            <li class="list-group-item d-flex justify-content-between lh-condensed">
-                <div>
-                    <h6 class="my-0"><a href="https://yandex.ru">Github</a></h6>
-                    <small class="text-muted">Git</small>
-                </div>
-            </li>
-            <li class="list-group-item d-flex justify-content-between bg-light">
-                <div class="text-success">
-                    <h6 class="my-0">PHP Framework Laravel</h6>
-                    <small>Technology</small>
-                </div>
-            </li>
-            <!--<li class="list-group-item d-flex justify-content-between">-->
-                <!--<span>Total (USD)</span>-->
-            <!--</li>-->
-        </ul>
-    </div>`;
-        elemTooltip = $('body').append(tooltip);
+        var source   = document.getElementById("entry-template").innerHTML;
+        var template = Handlebars.compile(source);
+
+        var index = jsonData.nodes.findIndex(function (node) {
+            return node.unique_name === params.node;
+        });
+        if (index !== -1){
+            jsonData.nodes[index]['x'] =  x;
+            jsonData.nodes[index]['y'] =  y;
+            elemTooltip = $('body').append(template(jsonData.nodes[index]));
+        }
     });
 
     network.on('blurNode', function (params) {
@@ -172,7 +151,7 @@ function getData(dataUrl, cb) {
     xhr.open('GET', dataUrl, false);
     xhr.send();
     if (xhr.status !== 200) {
-        alert( xhr.status + ': ' + xhr.statusText ); // пример вывода: 404: Not Found
+        alert( xhr.status + ': ' + xhr.statusText );
     } else {
         cb.call(this, JSON.parse(xhr.responseText));
     }

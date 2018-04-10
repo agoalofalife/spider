@@ -1,7 +1,7 @@
 {
   "nodes":[
     {
-      "unique_name":"frontend",
+      "unique_name":"Frontend",
       "group":"service",
       "weight":5,
       "meta_info":{
@@ -25,6 +25,14 @@
         {
           "unique_name":"Mysql",
           "connection_type":"http"
+        },
+        {
+          "unique_name":"Auth0",
+          "connection_type":"http"
+        },
+        {
+          "unique_name":"Resize image avatar",
+          "connection_type":"http"
         }
       ]
     },
@@ -43,6 +51,91 @@
           "link":"https://yandex.ru"
         },
         "technology":"Mysql",
+        "additionally":""
+      },
+      "dependences":[]
+    },
+    {
+      "unique_name":"Admin",
+      "group":"service",
+      "weight":6,
+      "meta_info":{
+        "owner":"agoalofalife@gmail.com",
+        "documentation":{
+          "label":"Wiki",
+          "link":"https://bibucket.ru"
+        },
+        "git":{
+          "label":"Bitbucket",
+          "link":"https://bibucket.ru"
+        },
+        "technology":"Php",
+        "additionally":""
+      },
+      "dependences":[
+        {
+          "unique_name":"Mysql",
+          "connection_type":"http"
+        },
+        {
+          "unique_name":"Parser User",
+          "connection_type":"system call"
+        }
+      ]
+    },
+    {
+      "unique_name":"Auth0",
+      "group":"third_party_service",
+      "weight":6,
+      "meta_info":{
+        "owner":"agoalofalife@gmail.com",
+        "documentation":{
+          "label":"Wiki",
+          "link":"https://auth.com"
+        },
+        "git":{
+          "label":"Github",
+          "link":"https://github.ru"
+        },
+        "technology":"Golang",
+        "additionally":""
+      },
+      "dependences":[]
+    },
+    {
+      "unique_name":"Parser User",
+      "group":"cron",
+      "weight":6,
+      "meta_info":{
+        "owner":"agoalofalife@gmail.com",
+        "documentation":{
+          "label":"Wiki",
+          "link":"https://auth.com"
+        },
+        "git":{
+          "label":"Github",
+          "link":"https://github.ru"
+        },
+        "technology":"Golang",
+        "additionally":""
+      },
+      "dependences":[]
+    },
+    {
+      "unique_name":"Resize image avatar",
+      "group":"service",
+      "weight":6,
+      "meta_info":{
+        "owner":"agoalofalife@gmail.com",
+        "documentation":{
+          "label":"Wiki",
+          "link":"https://auth.com"
+        },
+        "git":{
+          "label":"Github",
+          "link":"https://github.ru"
+        },
+        "technology":"Golang",
         "additionally":""
       },
       "dependences":[]
